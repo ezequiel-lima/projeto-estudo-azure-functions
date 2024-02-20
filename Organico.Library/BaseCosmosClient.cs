@@ -12,7 +12,7 @@ namespace Organico.Library
 
         public void InitializeAsync()
         {
-            _client = new CosmosClient(Environment.GetEnvironmentVariable("CosmosDB_URI"), Environment.GetEnvironmentVariable("CosmosDB_KEY"));
+            _client = new CosmosClient("https://cosmos-db-ezequiel.documents.azure.com:443/", "cbEok5GHdblrssuhQ6mYmbiGZxmrKJGP6oz0pddRjI4bn23GbzZ3ZuuH2bvRC8ORyjlW427ynoQ7ACDbpXzEKQ==");
             _database = _client.GetDatabase("organico");
             _container = _database.GetContainer(ContainerId);
         }
