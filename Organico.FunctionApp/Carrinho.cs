@@ -42,10 +42,6 @@ namespace Organico.FunctionApp
                 await cosmosClient.Post(cartItem);
             }
 
-            //response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
-
-            //response.WriteString("Welcome to Azure Functions!");
-
             return response;
         }
     }
