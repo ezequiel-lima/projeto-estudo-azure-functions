@@ -15,7 +15,7 @@ namespace Organico.Library.Data
         /// Obtém os itens do carrinho de compras
         /// </summary>
         /// <returns>A lista do carrinho de compras</returns>
-        List<CartItem> GetCartItems();
+        Task<List<CartItem>> GetCartItemsAsync();
 
         /// <summary>
         /// Adiciona, modifica ou remove um item do carrinho de compras

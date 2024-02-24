@@ -9,6 +9,7 @@ namespace Organico.Library.Data
     {
         private List<Order> _orders = new List<Order>();
         private Dictionary<string, CartItem> _cartItems;
+        private static HttpClient _httpClient = new();
 
         private IConfiguration _configuration;
 
@@ -51,18 +52,29 @@ namespace Organico.Library.Data
             _configuration = configuration;
         }
 
-        public List<CartItem> GetCartItems()
+        public async Task<List<CartItem>> GetCartItemsAsync()
         {
             // 1. Comentar o fluxo atual de listagem de itens
-            var items = _cartItems.Values.ToList();
-            items.Sort((item1, item2) => item1.ProductId.CompareTo(item2.ProductId));
-            return items;
+            // var items = _cartItems.Values.ToList();
+            //items.Sort((item1, item2) => item1.ProductId.CompareTo(item2.ProductId));
+            //return items;
 
             // 2. Obter a URI da Azure Function do carrinho
+            var carrinhoUrl = new Uri(_configuration["CarrinhoUrl"]);
 
             // 3. Realizar a requisição para a Azure Function do carrinho
+            var response = await _httpClient.GetAsync(carrinhoUrl);
 
             // 4. Tratar o resultado JSON do carrinho
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var items = JsonConvert.DeserializeObject<List<CartItem>>(jsonResponse);
+
+            _cartItems.Clear();
+            foreach (var item in items)
+            {
+                _cartItems[item.ProductId] = item;
+            }
+            return items;
         }
         
         // Adiciona um item ao carrinho de compras
